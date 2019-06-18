@@ -49,9 +49,9 @@ def main(arg1, arg2):
     #t2=content[0]
     Super_leaves,Supers_triplets=tp.triplet_decompose(Cpc,Super_triplet) 
     R_pi=intersection(triplets,Super_triplet)
-    print(R_pi)
+    #print(R_pi)
     final_tree=pi.check_pi(Cpc,R_pi)
-    print("final is:          --",final_tree)
+    #print("final is:          --",final_tree)
+    return final_tree
     
-   
-main("test1.txt",2)                   
+                     
