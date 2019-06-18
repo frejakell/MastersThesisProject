@@ -155,4 +155,3 @@ def main(arg1,arg2):
     #print(Cpc)
     Cpc.show()
     return Cpc
-main("seabirds.txt",2)
