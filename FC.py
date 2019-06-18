@@ -7,7 +7,7 @@ import numpy as np
 import flow_algorithm
 import random
 import time
-import scm_last
+import scm
 import math
 from copy import deepcopy
 
