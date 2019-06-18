@@ -4,7 +4,7 @@ from collections import defaultdict
 from itertools import permutations,product
 import random
 import scm as scm
-import MaxCut
+import TMC
 import fast_triplet as tp
 import fast_triplet_dictionary as tp_d
 import math
@@ -139,4 +139,3 @@ def main(arg1, arg2):
     #####print(taxa_com)
     ##print(trees_structure)
     return trees_structure,overlap_per,inconsist_per
-main("seabirds.txt",1)
