@@ -3,7 +3,7 @@ from itertools import combinations
 from collections import defaultdict
 from itertools import permutations,product
 import fast_triplet as tp
-import physic_pc_try as pc
+import physic_pc as pc
 import physic_pi as pi
 import rf_dist_list
 
@@ -16,20 +16,18 @@ def main(arg1, arg2):
         content = f.readlines()
     # you may also want to remove whitespace characters like `\n` at the end of each line
     content = [x.strip() for x in content] 
-    #t2=Tree(content[0])
-    #print(t2)
+    t2=Tree(content[0])
+    ###print(t2)
     triplets=[]
     taxa=[]
 
     for i in range(0,len(content)): 
         t1=Tree(content[i])
-        t1.resolve_polytomy()
         leaves,triplets=tp.triplet_decompose(t1,triplets)
-        #t2=Tree(content[i])
-        #print(t2)
+        t2=Tree(content[i])
+        ###print(t2)
         taxa+=leaves
-    taxa=set(taxa)
-    #print(triplets)
+    ###print(triplets)
     triplets_dict=defaultdict(list)
 
     for t in triplets:
@@ -43,15 +41,16 @@ def main(arg1, arg2):
         
         if (t in triplets_dict[trip_key]) is False :
             triplets_dict[trip_key].append(t)
-    #print(triplets_dict)
+    ###print(triplets_dict)
     Cpc=pc.physic_pc(list(set(taxa)),triplets,triplets_dict)
-    Super_triplet=[]
+    #print(Cpc)
+    '''Super_triplet=[]
     #t2=content[0]
     Super_leaves,Supers_triplets=tp.triplet_decompose(Cpc,Super_triplet) 
     R_pi=intersection(triplets,Super_triplet)
-    #print(R_pi)
+    print(R_pi)
     final_tree=pi.check_pi(Cpc,R_pi)
-    #print("final is:          --",final_tree)
-    return final_tree
+    #print("final is:          --",final_tree)'''
+    return Cpc
     
-                     
+#main("test1.txt",2)                 
