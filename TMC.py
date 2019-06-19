@@ -10,7 +10,7 @@ import random
 import math
 #import triplet_test
 class Graph(object):
-  
+
     def __init__(self, connections, bad_con, good_mat, bad_mat,d_taxa, directed=False):
         self._graph_good =  defaultdict(lambda: defaultdict(set))
         self._weights =  defaultdict(lambda: defaultdict(lambda:0))
@@ -24,7 +24,7 @@ class Graph(object):
         
 
     def add_connections(self, connections, bad_con):
-        
+        """ Add connections (list of tuple pairs) to graph """
 
         for node1, node2 in connections:
             self.add(node1, node2)
@@ -34,7 +34,7 @@ class Graph(object):
             self.add_weights(node1,node2,"bad")
          
     def add(self, node1, node2):
-        
+        """ Add connection between node1 and node2 """
         self._graph_good[node1]["good"].add(node2)
         if not self._directed:
             self._graph_good[node2]["good"].add(node1)
@@ -45,13 +45,14 @@ class Graph(object):
         if not self._directed:
             self._graph_good[node2]["bad"].add(node1)
     def add_weights(self, node1, node2,type):
-      
+        
+        #if node1 is not None  node2 is not None:
         L=[node1,node2]
         L=sorted(L)
         
         key=str(L[0])+str(L[1])
         self._weights[key][type]=self._weights[key][type]+1
-
+    
     def __str__(self):
         return '{}({})'.format(self.__class__.__name__, dict(self._graph))
 def partition (list_in,n):
@@ -63,24 +64,24 @@ def findCut(taxa,graph,d):
     weights=graph._weights
     good_cuts_full=graph._good_mat
     bad_cuts_full=graph._bad_mat
-    ###print(graph._graph_good)
-    ###print(good_cuts_full)
-    ###print(bad_cuts_full)
+    ####print(graph._graph_good)
+    ####print(good_cuts_full)
+    ####print(bad_cuts_full)
     
     r=int(math.sqrt(len(taxa)))
     s=r*2+1
     AA,positions=sphere.main(s,r)
-    ###print(AA)
+    ####print(AA)
     #shuffled_taxa = shuffle(taxa)
     taxa_displament={}
     for t in taxa:
         taxa_displament[t]=random.choice(positions)
-    ###print(taxa_displament)
+    ####print(taxa_displament)
     counter=1
     while counter < 100:
         
         current_node=random.choice(list(taxa))
-        ###print(current_node)
+        ####print(current_node)
         cm_bot=[0,0,0]
         cm_top=[0,0,0]
         
@@ -95,16 +96,16 @@ def findCut(taxa,graph,d):
                 if bad_current != 0:
                     protion=good_current/bad_current
                     #cm_distance=[abs(y-x) for x, y in zip(cm_node, cm_tc)]
-                    ###print(cm_distance)
-                    ###print(protion)
+                    ####print(cm_distance)
+                    ####print(protion)
                     cm_weight= [protion*x for x in cm_tc]
                     cm_top=[x+y for x, y in zip(cm_top, cm_weight)]
                     cm_bot=[x+y for x, y in zip(cm_bot, cm_tc)]
-                    ###print(cm_tc)
-                    ###print(cm_bot)
+                    ####print(cm_tc)
+                    ####print(cm_bot)
         #cm_adjust= [x/cm_count for x in cm]
-        ###print(cm_bot)
-        ###print(cm_top)
+        ####print(cm_bot)
+        ####print(cm_top)
         new_pos=[]
         for i in range(0,2):
             
@@ -137,7 +138,7 @@ def findCut(taxa,graph,d):
         else:
             cuts_R.append(td)
     
-        ###print(taxa_displament)
+        ####print(taxa_displament)
         count+=1 
     if len(cuts_L)< len(cuts_R):
         cuts_L_temp=cuts_L
@@ -220,8 +221,8 @@ def findCut(taxa,graph,d):
 
 
         if swap_taxa!= None or swap_taxa_R != None :
-            ###print(i)
-            ###print(cuts_L)
+            ####print(i)
+            ####print(cuts_L)
             if(delta_R <delta):
                 cuts_R.append(cuts_L[swap_taxa])
                 cuts_L= cuts_L[:swap_taxa] + cuts_L[swap_taxa+1 :]
@@ -230,26 +231,26 @@ def findCut(taxa,graph,d):
                 cuts_R= cuts_R[:swap_taxa_R] + cuts_R[swap_taxa_R+1 :]
         else:
             swap_taxa_final=None
-    ###print("connection is -------------------------------------------------------------")
-    ###print([cuts_L,cuts_R])
+    ####print("connection is -------------------------------------------------------------")
+    ####print([cuts_L,cuts_R])
     return [cuts_L,cuts_R]
     '''
     
     connections=graph._graph_good
-    ###print(connections)
-    ###print("weights is -------------------------------------------------------------")
+    ####print(connections)
+    ####print("weights is -------------------------------------------------------------")
    
-    ###print(weights['ab']['good'])
+    ####print(weights['ab']['good'])
     d=graph._d_taxa
     a = list(taxa) 
     Max_cut=""
     Max_ratio=0
     i=2
     while(i <= int(len(a)/2)+1):
-        ##print(i)
+        ###print(i)
         comb=combine2(a,i)
         for c in comb: 
-            ###print(c)
+            ####print(c)
             cut_set= set(taxa)-set(c)
            
             good_cuts=0
@@ -277,24 +278,24 @@ def clades_from_graph(taxa, graph):
     children=[]
     connections=graph._graph_good
     taxa_remainder=set(taxa)
-    ###print(taxa_remainder)
+    ####print(taxa_remainder)
     while taxa_remainder:
         
         node=taxa_remainder.pop()
         clades.append([])
         clades[clades_num].append(node)
-        ###print(set(connections[node]["good"]))
+        ####print(set(connections[node]["good"]))
         overlap=taxa_remainder & set(connections[node]["bad"]) 
         taxa_remainder=taxa_remainder-set(overlap)
         
         children=children+list(set(overlap))
-        ###print(children)
+        ####print(children)
         while children: 
             
             node=children.pop()
             clades[clades_num].append(node)
             overlap=taxa_remainder & set(connections[node]["bad"])
-            ###print(overlap)
+            ####print(overlap)
             #overlap=list(set(taxa_remainder) & set(connections[node]["good"]))
             #children.append(overlap)     
             children=children+list(set(overlap))
@@ -302,8 +303,8 @@ def clades_from_graph(taxa, graph):
         clades_num +=1
         
         
-    ###print("Clades--------------------------------------------------------------------------")
-    ###print(clades)
+    ####print("Clades--------------------------------------------------------------------------")
+    ####print(clades)
     return clades
         
     
@@ -314,7 +315,7 @@ def Max_cut(taxa, trip_d):
    
     #connections=graph._graph_good
     t = Tree()
-    ###print(taxa)
+    ####print(taxa)
     if len(taxa)==2:
         # Creates an empty tree
         #node=t.add_child()
@@ -337,7 +338,7 @@ def Max_cut(taxa, trip_d):
     bad_mat = [[0 for i in range(cols)] for j in range(rows)] 
     for keys in trip_d:
         words = keys.split(',')
-        ###print(words)
+        ####print(words)
         if(set(words).issubset(set(taxa))):
             triplets=trip_d[keys]
             for tri in triplets:
@@ -354,31 +355,31 @@ def Max_cut(taxa, trip_d):
                 good_mat[d[tri[1][0]]][d[tri[0]]] += 1
                 good_mat[d[tri[1][1]]][d[tri[0]]] +=1
     taxa=set(taxa)   
-    ###print(triplets) 
+    ####print(triplets) 
    
      
         
     
-    ###print(good)
-    ###print(bad)    
+    ####print(good)
+    ####print(bad)    
     g = Graph(good, bad,good_mat,bad_mat, d, directed=False)
     cc=clades_from_graph(set(taxa), g)
  
     cc_cut=cc
-    ###print(cc)
+    ####print(cc)
     if len(cc_cut) >1: 
         for c in cc_cut:
             sub_t=Max_cut(c,trip_d)
-            ###print(sub_t)
+            ####print(sub_t)
             if isinstance(sub_t,str):
                 t.add_child(name=sub_t)
             else:
                 t.add_child(sub_t)
     else:
 
-        ###print("[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[")
+        ####print("[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[")
         cut=findCut(set(taxa),g,d)
-        ###print(cut)
+        ####print(cut)
         for c in cut:
             new_child=Max_cut(c,trip_d)
             if isinstance(new_child,str):
@@ -409,7 +410,7 @@ def decomp(tree,taxa,l_sibs,l_og):
             leaves_name=[]
             for leaf in leaves:
                 leaves_name.append(leaf.name)
-            ###print(leaves_name)
+            ####print(leaves_name)
             outgroups=set(L)-set(leaves_name)
             l_sibs.append(' '.join(leaves_name).split())
             l_og.append(' '.join(outgroups).split())
@@ -429,29 +430,33 @@ def main(arg1, arg2):
             content = f.readlines()
     else:
         content = arg1
-    ###print(content)
+    ####print(content)
     # you may also want to remove whitespace characters like `\n` at the end of each line
     #content = [x.strip() for x in content] 
     t2=Tree(content[0])
-    print(t2)
+    #print(t2)
     triplets=[]
     taxa=[]
     good=[]
     bad=[]
     for i in range(0,len(content)): 
-        ###print(i)
+        ####print(i)
         t1=Tree(content[i])
         #t1.show()
-        ##print(t1.write(format=9))
+        ###print(t1.write(format=9))
         t1.resolve_polytomy()
         for leaf in t1:
             if leaf.is_leaf() is True:
                 taxa.append(leaf.name)
         leaves,triplets=tp.triplet_decompose(t1,triplets)
+        #print("leaves",leaves)
+        #t2=Tree(content[i])
         
-     
+        ####print(triplets) 
+        #taxa+=leaves
     taxa=set(taxa)   
-  
+    #print(triplets)
+    #print("taxa",taxa)
     d = {ni: indi for indi, ni in enumerate(taxa)}
     rows, cols = (len(taxa), len(taxa)) 
     triplets_dict=defaultdict(list)
@@ -467,20 +472,20 @@ def main(arg1, arg2):
         if (t in triplets_dict[trip_key]) is False :
        
             triplets_dict[trip_key].append(t)
-    print(triplets_dict)
-    ###print(good)
-    ###print(bad)    
+    #print(triplets_dict)
+    ####print(good)
+    ####print(bad)    
 
     
 
  
     
-    ###print(clades)
-    ###print("__________________________________________________________")
-    ###print(outgroup)
+    ####print(clades)
+    ####print("__________________________________________________________")
+    ####print(outgroup)
     #g = Graph(connections, outgroup, good, bad, directed=True)
-    ###print(g._graph_good)     
-    ###print(g._weights)    
+    ####print(g._graph_good)     
+    ####print(g._weights)    
     #triplets_dict=defaultdict(list)
     supertree=Max_cut(taxa, triplets_dict) 
     #print("supertree",supertree)
@@ -500,10 +505,8 @@ def main(arg1, arg2):
     overlap_per=overlap/total
     inconsist_per=inconsist/total
     #t2=Tree("((ah, ((ae, ab), ai)), ((ag, aa), (ac, (ad, (aj, af)))));")
-    ###print(t2)
-    #triplet_test.main(arg1,supertree,True,25)'''
-    #print(supertree)
+    ####print(t2)
+    #triplet_test.main(arg1,supertree,True,25)
+    ##print(supertree)'''
     return supertree,0,0,triplets_dict
     #clades_from_graph(taxa, g)
-    
-main("test1.txt",2)
