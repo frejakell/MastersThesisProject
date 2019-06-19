@@ -5,7 +5,7 @@ from itertools import permutations,product
 import fast_triplet as tp
 
 class Graph(object):
-    """ Graph data structure, undirected by default. """
+   
     def __init__(self, connections, bad_con, directed=False):
         self._graph_good =  defaultdict(lambda: defaultdict(set))
         self._weights =  defaultdict(lambda: defaultdict(lambda:0))
@@ -32,56 +32,24 @@ class Graph(object):
             self._graph_good[node2]["good"].add(node1)
   
     def add_bad(self, node1, node2):
-        """ Add connection between node1 and node2 """
+        
         self._graph_good[node1]["bad"].add(node2)
         if not self._directed:
             self._graph_good[node2]["bad"].add(node1)
     def add_weights(self, node1, node2,type):
-        """ Add connection between node1 and node2 """
+        
         #if node1 is not None  node2 is not None:
         L=[node1,node2]
         L=sorted(L)
         
         key=str(L[0])+str(L[1])
         self._weights[key][type]=self._weights[key][type]+1
-    def remove(self, node):
-        """ Remove all references to node """
-
-        for n, cxns in self._graph_good.iteritems():
-            try:
-                cxns.remove(node)
-            except KeyError:
-                pass
-        try:
-            del self._graph_good[node]
-        except KeyError:
-            pass
-
-    def is_connected(self, node1, node2):
-        """ Is node1 directly connected to node2 """
-
-        return node1 in self._graph_good and node2 in self._graph_good[node1]
-
-    def find_path(self, node1, node2, path=[]):
-        """ Find any path between node1 and node2 (may not be shortest) """
-
-        path = path + [node1]
-        if node1 == node2:
-            return path
-        if node1 not in self._graph_good:
-            return None
-        for node in self._graph_good[node1]:
-            if node not in path:
-                new_path = self.find_path(node, node2, path)
-                if new_path:
-                    return new_path
-        return None
-
+    
     def __str__(self):
         return '{}({})'.format(self.__class__.__name__, dict(self._graph))
 
 def check_pi(tree,R_pi): 
-    print(tree)
+   
     leaf_list=[]
     for leaves in tree:
         leaf_list.append(leaves.name)
@@ -91,12 +59,12 @@ def check_pi(tree,R_pi):
     bad=[]
     for key in R_pi:
         t=R_pi[key][0]
-        print(t)
+        
         good.append(t[1])
         bad.append((t[0],t[1][0]))
         bad.append((t[0],t[1][1]))
-    #print(good)
-    #print(bad)    
+    ####print(good)
+    ####print(bad)    
     g = Graph(good, bad, directed=False)
     cc=clades_from_graph(set(leaf_list), g)
     if len(cc)==1:
@@ -163,8 +131,7 @@ def check_pi(tree,R_pi):
                         subtree=subtree+subtree_extra
                         collaps=True 
                         
-                    else:
-                        print("one Clade--------------------------------------------------------------------------")
+                  
     tree_children=tree.get_children()
     new_trees=[]
     R_ti=defaultdict(list)
@@ -181,9 +148,9 @@ def check_pi(tree,R_pi):
     final_tree=Tree()
     for Tis in new_trees:
         #if isinstance(Tis,str):
-        print(Tis)
+        
         final_tree.add_child(Tis)
-    print(final_tree)
+  
     return(final_tree)                    
                         
 
@@ -205,7 +172,7 @@ def clades_from_graph(taxa, graph):
         node=taxa_remainder.pop()
         clades.append([])
         clades[clades_num].append(node)
-        #print(set(connections[node]["good"]))
+        ####print(set(connections[node]["good"]))
         overlap=taxa_remainder & set(connections[node]["good"]) 
         taxa_remainder=taxa_remainder-set(overlap)
         
@@ -216,13 +183,13 @@ def clades_from_graph(taxa, graph):
             overlap=taxa_remainder & set(connections[node]["good"])
             #overlap=list(set(taxa_remainder) & set(connections[node]["good"]))
             #children.append(overlap) 
-            print(children)
+            ###print(children)
             #children=children+list(overlap)
             taxa_remainder=taxa_remainder-set(node)
         clades_num +=1
         
-    #print("Clades--------------------------------------------------------------------------")
-    #print(clades)
+    ####print("Clades--------------------------------------------------------------------------")
+    ####print(clades)
     return clades
     
 def intersection(lst1, lst2): 
@@ -236,17 +203,17 @@ def main(arg1, arg2):
     # you may also want to remove whitespace characters like `\n` at the end of each line
     content = [x.strip() for x in content] 
     t2=Tree(content[0])
-    #print(t2)
+    ####print(t2)
     triplets=[]
     taxa=[]
     good=[]
     bad=[]
     for i in range(1,len(content)): 
         t1=Tree(content[i])
-        #print(t1)
+        ####print(t1)
         leaves,triplets=tp.triplet_decompose(t1,triplets)
         #t2=Tree(content[i])
-        #print(t2)
+        ####print(t2)
         taxa+=leaves
     Super_triplet=[]
     t2=content[0]
@@ -254,7 +221,7 @@ def main(arg1, arg2):
     R_pi=intersection(triplets,Super_triplet)
    
     final_tree=check_pi(R_pi,Tree(t2))
-    print("final ishhhhhh:          --",final_tree)
+    ###print("final ishhhhhh:          --",final_tree)
    
     
 #main("test1.txt",2)
