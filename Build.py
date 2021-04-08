@@ -136,7 +136,7 @@ def build(S,R):
 def main(arg1,arg2): 
     with open(arg1) as f:
         content = f.readlines()
-    # you may also want to remove whitespace characters like `\n` at the end of each line
+    
     content = [x.strip() for x in content] 
     t2=Tree(content[0])
     #print(t2)
