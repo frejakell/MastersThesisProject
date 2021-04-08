@@ -2,6 +2,14 @@
 
 The code in this repository contains the assembly of supertree algortihms implemented for my Master thesis project (Aarhus University, 2019)
 
+## Requirements: 
+The project depends on a number of different libraries:
+  1. ete3 
+  2. numpy  
+  3. itertools
+  4. collections
+
+## The project structure and modules
 The project consists of a number of different SuperTree algorithms: 
   1. PluMist algorithm
   2. Triplet MaxCut algorithm
