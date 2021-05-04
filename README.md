@@ -50,4 +50,8 @@ The code includes an assembly program (assembly_tool.py) that makes the project 
             -rf(optional)  
                 construct robinson-fould distance matrix between the outputed trees"""
                 
-                
+ 
+   ## Visualization of results:           
+   For the sake of the report a GUI was assembled in QT for the results. The layout of this interface is shown below.
+   ![supertrees](https://user-images.githubusercontent.com/8816121/116957357-8d1e5780-ac4c-11eb-9d33-ae57cf6eb740.JPG)
+
